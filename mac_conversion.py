@@ -1,58 +1,98 @@
-#!/usr/bin/env python
 import optparse
 import binascii
 import struct
 import datetime
 
 def main():
+	# Create OptionParser, add options
 	p = optparse.OptionParser()
 	p.add_option('-T', action='store_true', help='Use the time conversion module. Either -f or -h must be given.')
 	p.add_option('-D', action='store_true', help='Use the date conversion module. Either -f or -h must be given.')
 	p.add_option('-f', dest='filename', metavar='filename', action='store', help='This specifies the path to a filename that includes a hex value of time or date. Note that the hex value should follow this notation: 0x1234. For the multiple hex values in either a file or a command line input, we consider only one hex value so the recursive mode for MAC conversion is optional.')
 	p.add_option('-x', dest='hex_value', metavar='hex value', action='store', help='This specifies the hex value for converting to either date or time value. Note that the hex value should follow this notation: Ox1234. For the multiple hex values in either a file or acommand line input, we consider only one hex value so the recursive mode for MAC conversion is optional.')
+	
+	# get options from parser
 	options, arguments = p.parse_args()
 
+	# if -T option given
 	if options.T:
+		# if -f option given
 		if options.filename:
-			# open file get hex value
-			# Convert given hex value to Time
-			print "file"
+			try:
+				# open file and get each hex value
+				with open(options.filename,"r") as inf:
+					# loop through lines
+					for line in inf:
+						# strip extra spacing
+						value = line.strip()
+						# print result from convert_time
+						print "Time: %s" % convert_time(value)
+			except Exception as e:
+				# print Exception
+				print "ERROR: %s" % str(e)
+		# if -x option given
 		elif options.hex_value:
-			# convert given hex value to Time
-			convert_time(options.hex_value)
+			# print result from convert_time
+			print "Time: %s" % convert_time(options.hex_value)
 		else:
-			print "ERROR"
+			# options not given ERROR
+			print "ERROR: You must specify a filename or a hex value. Type -h or --help for usage information."
+	# if -D option given
 	elif options.D:
+		# if -f option given
 		if options.filename:
-			# open file get hex value
-			# Convert given hex value to Time
-			print "file"
+			try:
+				# open file and get each hex value
+				with open(options.filename,"r") as inf:
+					# loop through lines
+					for line in inf:
+						# strip extra spacing
+						value = line.strip()
+						# print result from convert_date
+						print "Date: %s" % convert_date(value)
+			except Exception as e:
+				# print Exception
+				print "ERROR: %s" % str(e)
+		# if -x option given
 		elif options.hex_value:
-			# convert given hex value to Time
-			convert_date(options.hex_value)
+			# print result from convert_date
+			print "Date: %s" % convert_date(options.hex_value)
 		else:
-			print "ERROR"
-	# num = "0x%04X" % struct.unpack("<H", binascii.unhexlify(options.hex_value[2:]))
-	# print num
-	# binary = (bin(int(num,16))[2:]).zfill(16)
-	# print binary
-	# year = binary[:7]
-	# print int(year,2)
-	# month = binary[7:11]
-	# print int(month,2)
-	# day = binary[11:]
-	# print int(day,2)
+			# options not given ERROR
+			print "ERROR: You must specify a filename or a hex value. Type -h or --help for usage information."
+	else:
+		# options not given ERROR
+		print "ERROR: No options specified. Type -h or --help for usage information."
 
+# function to convert hex to date
 def convert_date(hex):
+	# convert hex to little endian
 	little_endian = "0x%04X" % struct.unpack("<H", binascii.unhexlify(hex[2:]))
+	# convert little endian hex to binary
 	binary = (bin(int(little_endian,16))[2:]).zfill(16)
+	# get year, month, and day from binary
 	year = int(binary[:7],2)
 	month = int(binary[7:11],2)
 	day = int(binary[11:],2)
+	# create date from year, month, and day
 	date = datetime.date(year+1980, month, day)
-	print date.strftime('%B %d, %Y')
+	# return date string
+	return date.strftime('%b %d, %Y')
+
+# function to convert hex to date
 def convert_time(hex):
-	print hex
+	# convert hex to little endian
+	little_endian = "0x%04X" % struct.unpack("<H", binascii.unhexlify(hex[2:]))
+	# convert little endian hex to binary
+	binary = (bin(int(little_endian,16))[2:]).zfill(16)
+	# get hour, minutes, and seconds from binary
+	hour = int(binary[:5],2)
+	minute = int(binary[5:11],2)
+	second = int(binary[11:],2)*2
+	# create time from hour, minutes, and seconds
+	time = datetime.time(hour,minute,second)
+	# return time string
+	return time.strftime('%I:%M:%S %p')
 
 if __name__ == '__main__':
 	main()
