@@ -3,9 +3,11 @@ import binascii
 import struct
 import datetime
 
+global p
+p = optparse.OptionParser()
+
 def main():
-	# Create OptionParser, add options
-	p = optparse.OptionParser()
+	# add options to OptionParser
 	p.add_option('-T', action='store_true', help='Use the time conversion module. Either -f or -h must be given.')
 	p.add_option('-D', action='store_true', help='Use the date conversion module. Either -f or -h must be given.')
 	p.add_option('-f', dest='filename', metavar='filename', action='store', help='This specifies the path to a filename that includes a hex value of time or date. Note that the hex value should follow this notation: 0x1234. For the multiple hex values in either a file or a command line input, we consider only one hex value so the recursive mode for MAC conversion is optional.')
@@ -36,7 +38,8 @@ def main():
 			print "Time: %s" % convert_time(options.hex_value)
 		else:
 			# options not given ERROR
-			print "ERROR: You must specify a filename or a hex value. Type -h or --help for usage information."
+			print "ERROR: You must specify a filename or a hex value."
+			p.print_help()
 	# if -D option given
 	elif options.D:
 		# if -f option given
@@ -59,10 +62,12 @@ def main():
 			print "Date: %s" % convert_date(options.hex_value)
 		else:
 			# options not given ERROR
-			print "ERROR: You must specify a filename or a hex value. Type -h or --help for usage information."
+			print "ERROR: You must specify a filename or a hex value."
+			p.print_help()
 	else:
 		# options not given ERROR
-		print "ERROR: No options specified. Type -h or --help for usage information."
+		print "ERROR: No valid options given. You must specify -T or -D."
+		p.print_help()
 
 # function to convert hex to date
 def convert_date(hex):
