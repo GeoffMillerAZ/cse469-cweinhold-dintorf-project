@@ -55,8 +55,9 @@ def main():
 		# no valid options given
 		else:
 			print "ERROR: No valid options given. You must specify -L, -P, or -C."
+			p.print_help()
 	except Exception as e:
-		print "EXCEPTION ERROR: " + str(e)
+		print "EXCEPTION ERROR: %s" % str(e)
 
 # function to calculate logical address
 def calc_logical(options):
@@ -149,7 +150,7 @@ def calc_cluster(options):
 			p.print_help()
 			return ""
 		if c_addr < 2:
-			return "ERROR: Cluster addresses start at 2. Value returned " + str(c_addr) + "."
+			return "ERROR: Cluster addresses start at 2. Value returned %s." % str(c_addr)
 		return c_addr
 	# if -p given
 	elif options.p_addr:
@@ -166,7 +167,7 @@ def calc_cluster(options):
 			p.print_help()
 			return ""
 		if c_addr < 2:
-			return "ERROR: Cluster addresses start at 2. Value returned " + str(c_addr) + "."
+			return "ERROR: Cluster addresses start at 2. Value returned %s." % str(c_addr)
 		return c_addr
 	# options not given
 	else:

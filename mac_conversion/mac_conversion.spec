@@ -1,6 +1,6 @@
 # -*- mode: python -*-
 a = Analysis(['mac_conversion.py'],
-             pathex=['/Users/dintorf/Developer/School/CSE469/Project/cse469-cweinhold-dintorf-project/mac_conversion'],
+             pathex=['/home/dintorf/Developer/CSE469Project/cse469-cweinhold-dintorf-project/mac_conversion'],
              hiddenimports=[],
              hookspath=None,
              runtime_hooks=None)

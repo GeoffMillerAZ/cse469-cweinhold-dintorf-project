@@ -1,6 +1,6 @@
 # -*- mode: python -*-
 a = Analysis(['address4forensics.py'],
-             pathex=['/Users/dintorf/Developer/School/CSE469/Project/cse469-cweinhold-dintorf-project/address4forensics'],
+             pathex=['/home/dintorf/Developer/CSE469Project/cse469-cweinhold-dintorf-project/address4forensics'],
              hiddenimports=[],
              hookspath=None,
              runtime_hooks=None)

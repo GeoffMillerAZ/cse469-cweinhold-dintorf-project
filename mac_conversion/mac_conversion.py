@@ -62,7 +62,7 @@ def main():
 						print "Date: %s" % convert_date(value)
 			except Exception as e:
 				# print Exception
-				print "ERROR: %s" % str(e)
+				print "EXCEPTION ERROR: %s" % str(e)
 		# if -x option given
 		elif options.hex_value:
 			# print result from convert_date
@@ -92,7 +92,7 @@ def convert_date(hex):
 	try:
 		date = datetime.date(year+1980, month, day)
 	except Exception as e:
-		return "ERROR: Hex could not be converted to date, %s" % str(e)
+		return "EXCEPTION ERROR: Hex could not be converted to date, %s" % str(e)
 	# return date string
 	return date.strftime('%b %d, %Y')
 
@@ -114,7 +114,7 @@ def convert_time(hex):
 	try:
 		time = datetime.time(hour,minute,second)
 	except Exception as e:
-		return "ERROR: Hex could not be converted to time, %s" % str(e)
+		return "EXCEPTION ERROR: Hex could not be converted to time, %s" % str(e)
 	# return time string
 	return time.strftime('%I:%M:%S %p')
 
