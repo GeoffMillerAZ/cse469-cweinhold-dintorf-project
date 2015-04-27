@@ -107,9 +107,10 @@ def convert_time(hex):
 	# get hour, minutes, and seconds from binary
 	hour = int(binary[:5],2)
 	minute = int(binary[5:11],2)
-	second = int(binary[11:],2)*2
+	second = int(binary[11:],2)
 	if second > 29:
 		return "ERROR: Hex could not be converted to time, second must be in 0..29"
+	second *= 2
 	# create time from hour, minutes, and seconds
 	try:
 		time = datetime.time(hour,minute,second)
